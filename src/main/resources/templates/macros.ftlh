@@ -30,6 +30,11 @@
                                 <a class="nav-link" href="/register">Регистрация</a>
                             </li>
                         </@security.authorize>
+                        <@security.authorize access="hasRole('ADMIN')">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/places/add">Добавить заведения</a>
+                            </li>
+                        </@security.authorize>
                     </ul>
                 </div>
             </nav>
