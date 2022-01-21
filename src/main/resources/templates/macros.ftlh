@@ -8,21 +8,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>
+    <#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
 </#macro>
 
 <#macro header>
+
     <header class="bg-light">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="#">Delivery</a>
+                <a class="navbar-brand" href="/">Delivery</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
+                        <@security.authorize access="hasRole('ROLE_ANONYMOUS')">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/login">Войти</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/register">Регистрация</a>
+                            </li>
+                        </@security.authorize>
                     </ul>
                 </div>
             </nav>
