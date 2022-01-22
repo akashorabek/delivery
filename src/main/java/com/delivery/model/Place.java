@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "places")
-public class Place {
+public class Place  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,6 +26,4 @@ public class Place {
     @Column(length = 250)
     private String description;
 
-    @OneToMany(mappedBy = "place")
-    private List<Food> foods;
 }

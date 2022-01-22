@@ -29,6 +29,7 @@ public class PlaceController {
     @GetMapping("/places/{placeId}")
     public String viewPlaceItem(@PathVariable int placeId, Model model) {
         model.addAttribute("place", service.getById(placeId));
+        model.addAttribute("foods", service.findAllFoodsByPlaceId(placeId));
         return "place_item";
     }
 

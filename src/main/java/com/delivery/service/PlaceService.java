@@ -1,16 +1,21 @@
 package com.delivery.service;
 
 import com.delivery.model.DTO.PlaceDTO;
+import com.delivery.model.Food;
 import com.delivery.model.Place;
+import com.delivery.repository.FoodRepository;
 import com.delivery.repository.PlaceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
 @AllArgsConstructor
 public class PlaceService {
     private final PlaceRepository repository;
+    private final FoodRepository foodRepository;
 
     public Iterable<Place> findAll() {
         return repository.findAll();
@@ -31,11 +36,15 @@ public class PlaceService {
 
     public boolean deletePlace(int placeId) {
         Place place = repository.getById(placeId);
-
-        if (place.getFoods() != null && place.getFoods().size() > 0) {
+        List<Food> placeFoods = foodRepository.findAllByPlaceId(placeId);
+        if (placeFoods != null && placeFoods.size() > 0) {
             return false;
         }
         repository.deleteById(placeId);
         return true;
+    }
+
+    public Iterable<Food> findAllFoodsByPlaceId(int placeId) {
+        return foodRepository.findAllByPlaceId(placeId);
     }
 }

@@ -14,9 +14,9 @@
     <h2 class="title text-center mb-5 mt-4">Регистрация</h2>
     <div class="d-flex align-items-center justify-content-center">
         <form class="my_form" action="/register" method="post">
-            <#if hasError??>
+            <#if hasServiceErrors??>
                 <div class="alert alert-danger" role="alert">
-
+                    ${hasServiceErrors}
                 </div>
             </#if>
             <div class="form-group">
