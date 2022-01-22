@@ -34,20 +34,9 @@
                             <h5 class="card-title">${food.name}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">${food.price}</h6>
                             <p class="card-text">${food.description}</p>
-<#--                            <@security.authorize access="isAuthenticated()">-->
-<#--                                <form action="/basket/add" method="post">-->
-<#--                                    <#if _csrf??>-->
-<#--                                        <input type="hidden"-->
-<#--                                               name="${(_csrf.parameterName)!'csrf-param-name'}"-->
-<#--                                               value="${(_csrf.token)!'csrf-token'}" />-->
-<#--                                    </#if>-->
-<#--                                    <input type="hidden" name="foodId" value="${food.id}">-->
-<#--                                    <button class="btn btn-primary my-2">В корзину</button>-->
-<#--                                </form>-->
-
-<#--                                                        -->
-<#--                            </@security.authorize>-->
-                            <button onclick="addToBasket(${food.id}, ${place.id})" class="btn btn-primary my-2">В корзину</button>
+                            <@security.authorize access="isAuthenticated()">
+                                <button onclick="addToBasket(${food.id}, ${place.id})" class="btn btn-primary my-2">В корзину</button>
+                            </@security.authorize>
                             <@security.authorize access="hasAuthority('ADMIN')">
                                 <form action="/admin/foods/delete" method="post">
                                     <#if _csrf??>

@@ -22,7 +22,6 @@ public class PlaceController {
     @GetMapping
     public String root(Model model) {
         model.addAttribute("places", service.findAll());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         return "index";
     }
 
