@@ -1,15 +1,15 @@
 package com.delivery.controller;
 
 import com.delivery.model.DTO.PlaceDTO;
-import com.delivery.repository.PlaceRepository;
 import com.delivery.service.PlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -22,6 +22,7 @@ public class PlaceController {
     @GetMapping
     public String root(Model model) {
         model.addAttribute("places", service.findAll());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         return "index";
     }
 
@@ -31,14 +32,23 @@ public class PlaceController {
         return "place_item";
     }
 
-    @GetMapping("/places/add")
+    @GetMapping("/admin/places/add")
     public String viewAddPlace() {
         return "create_place";
     }
 
-    @PostMapping("/places")
+    @PostMapping("/admin/places/add")
     public String addPlace(@Valid PlaceDTO placeDTO) {
         service.addPlace(placeDTO);
+        return "redirect:/";
+    }
+
+    @PostMapping("/admin/places/delete")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String deletePlace(@RequestParam int placeId, RedirectAttributes redirectAttributes)  {
+        if (!service.deletePlace(placeId)) {
+            redirectAttributes.addFlashAttribute("psqlError", "В данном заведений еще есть блюда. Удалите все его блюда чтобы удалить заведение");
+        }
         return "redirect:/";
     }
 
@@ -53,4 +63,5 @@ public class PlaceController {
         model.addAttribute("bindErrors", errors);
         return "create_place";
     }
+
 }

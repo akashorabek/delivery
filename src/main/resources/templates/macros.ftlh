@@ -13,7 +13,7 @@
 
 <#macro header>
 
-    <header class="bg-light">
+    <header class="bg-light mb-5">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" href="/">Delivery</a>
@@ -23,16 +23,29 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <@security.authorize access="hasRole('ROLE_ANONYMOUS')">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="/login">Войти</a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="/register">Регистрация</a>
                             </li>
                         </@security.authorize>
-                        <@security.authorize access="hasRole('ADMIN')">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/places/add">Добавить заведения</a>
+                        <@security.authorize access="hasAuthority('ADMIN')">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/places/add">Добавить заведения</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/foods/add">Добавить блюдо</a>
+                            </li>
+                        </@security.authorize>
+                        <@security.authorize access="isAuthenticated()">
+                            <li id="create_products_link" class="nav-item">
+                                <form action="/logout" method="post">
+                                    <input type="hidden"
+                                           name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                           value="${(_csrf.token)!'csrf-token'}" />
+                                    <button class="btn btn-primary"  href="/places/add">Выйти</button>
+                                </form>
                             </li>
                         </@security.authorize>
                     </ul>

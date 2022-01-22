@@ -6,6 +6,7 @@ import com.delivery.repository.PlaceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @AllArgsConstructor
 public class PlaceService {
@@ -26,5 +27,15 @@ public class PlaceService {
         place.setDescription(placeDTO.getDescription());
 
         repository.save(place);
+    }
+
+    public boolean deletePlace(int placeId) {
+        Place place = repository.getById(placeId);
+
+        if (place.getFoods() != null && place.getFoods().size() > 0) {
+            return false;
+        }
+        repository.deleteById(placeId);
+        return true;
     }
 }

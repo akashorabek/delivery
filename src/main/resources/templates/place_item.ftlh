@@ -5,6 +5,7 @@
 <head>
     <@p.head />
     <title>Подробнее о заведений</title>
+    <#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
 </head>
 <body>
 <@p.header />
@@ -29,6 +30,17 @@
                         <h5 class="card-title">${food.name}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${food.price}</h6>
                         <p class="card-text">${food.description}</p>
+                        <@security.authorize access="hasAuthority('ADMIN')">
+                            <form action="/admin/foods/delete" method="post">
+                                <#if _csrf??>
+                                    <input type="hidden"
+                                           name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                           value="${(_csrf.token)!'csrf-token'}" />
+                                </#if>
+                                <input type="hidden" name="foodId" value="${food.id}">
+                                <button class="btn btn-danger">Удалить</button>
+                            </form>
+                        </@security.authorize>
                     </div>
                 </div>
             </div>
