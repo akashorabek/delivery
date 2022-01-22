@@ -37,6 +37,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/admin/foods/add">Добавить блюдо</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/users">Все пользователи</a>
+                            </li>
                         </@security.authorize>
                         <@security.authorize access="isAuthenticated()">
                             <li id="create_products_link" class="nav-item">

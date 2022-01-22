@@ -7,10 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -44,6 +42,33 @@ public class UserController {
             return "register";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/admin/users")
+    public String viewUsers(Model model) {
+        model.addAttribute("users", service.findAll());
+        return "users";
+    }
+
+    @PostMapping("/admin/users/role")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String changeUserRole(@RequestParam String role, @RequestParam int userId) {
+        service.changeUserRole(userId, role);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/enabled")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String changeUserEnabled(@RequestParam boolean enabled, @RequestParam int userId) {
+        service.changeUserEnabled(userId, enabled);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/delete")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String deleteUser(@RequestParam int userId) {
+        service.deleteUser(userId);
+        return "redirect:/admin/users";
     }
 
     @ExceptionHandler(BindException.class)

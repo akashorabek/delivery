@@ -47,6 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/admin/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/admin/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/register").not().fullyAuthenticated()
+                .antMatchers(HttpMethod.POST, "/register").not().fullyAuthenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
